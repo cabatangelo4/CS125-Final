@@ -18,13 +18,13 @@ public class GameSetup {
     /** The current player's board setup. */
     private final Map<Integer, Integer> playerBoard = boardValues();
 
-
     /** Generates 25 unique random integers from 1 to 100 inclusive. */
-    public Map<Integer, Integer> boardValues() {
+    public static Map<Integer, Integer> boardValues() {
+        Random random1 = new Random();
         int i = 0;
         Map<Integer, Integer> boardMap = new HashMap<>();
         while (i < 25) {
-            int randInt = random.nextInt(100) + 1;
+            int randInt = random1.nextInt(100) + 1;
             if (!(boardMap.containsValue(randInt))) {
                 boardMap.put(i, randInt);
                 i++;
@@ -35,9 +35,10 @@ public class GameSetup {
 
     /** Draws a value from the remaining un-drawn values (returns -1 if all values have been drawn). */
     public int draw() {
+        Random random1 = new Random();
         int i = 0;
         while(i < 101) {
-            int randInt = random.nextInt(100) + 1;
+            int randInt = random1.nextInt(100) + 1;
             if (!(drawn.containsValue(randInt))) {
                 drawn.put(drawnIndex, randInt);
                 drawnIndex++;
