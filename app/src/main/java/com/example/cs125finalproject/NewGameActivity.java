@@ -23,17 +23,17 @@ public class NewGameActivity extends AppCompatActivity implements View.OnClickLi
     public void populateBoard() {
         Map<Integer, Integer> board = GameSetup.boardValues();
         for (int i = 0; i < 24; i++) {
-            if (i == 12) {
+            /*if (i == 12) {
                 continue;
-            }
+            }*/
             String buttonID = "b_" + i;
             int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
             buttons[i] = findViewById(resID);
         }
         for (int i = 0; i < 24; i++) {
-            if (i == 12) {
+            /*if (i == 12) {
                 continue;
-            }
+            }*/
             buttons[i].setText(board.get(i));
         }
     }

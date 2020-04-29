@@ -21,12 +21,10 @@ import java.util.Map;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
     /** An array of the cells as buttons*/
     private Button[] currentBoard = new Button[24];
-    /** A map which contains all values that have already been drawn. */
-    private Map<Integer, Integer> drawn = new HashMap<>();
-    /** The number of different values that have aready been drawn. */
-    private int drawnIndex = 0;
+
     /** Tells whether or not there is a game in progress*/
     private Boolean gameInProgress = false;
 
@@ -49,32 +47,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Activates the Draw Number button
         Button drawNumber = findViewById(R.id.drawNumber);
         drawNumber.setOnClickListener(unused ->
-                Toast.makeText(this, "Will draw a random number and add it to a map of drawn numbers", Toast.LENGTH_SHORT).show());
+                drawValue());
         Button checkWin = findViewById(R.id.checkWin);
         checkWin.setOnClickListener(unused ->
-                Toast.makeText(this, "Will check if the player has won with their current board.", Toast.LENGTH_SHORT).show());
+                winCheck());
     }
 
     /**
      * A function that fills each cell of the board with a random number and activates their onClick function
      */
     public void populateBoard() {
-        Map<Integer, Integer> board = GameSetup.boardValues();
         Button middle = findViewById(R.id.b_center);
         String freeSpace = "Free";
         middle.setText(freeSpace);
         middle.setBackgroundColor(getResources().getColor(R.color.colorYellow));
         for (int i = 0; i < 24; i++) {
             String buttonID = "b_" + i;
-            String buttonValue = board.get(i).toString();
+            String buttonValue = GameSetup.playerBoard.get(i).toString();
             int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
             Button button = findViewById(resID);
             button.setText(buttonValue);
             currentBoard[i] = findViewById(resID);
             button.setOnClickListener(this);
-        }
+            }
         gameInProgress = true;
-    }
+        }
 
     public void resetBoard() {
         Button middle = findViewById(R.id.b_center);
@@ -90,12 +87,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         gameInProgress = false;
     }
 
+    public void drawValue() {
+        int value = GameSetup.draw();
+        for (int i = 0; i < 24; i++) {
+            if (value == GameSetup.playerBoard.get(i)) {
+                fillCell(currentBoard[i]);
+            }
+        }
+    }
+
+    public void winCheck() {
+        if (GameSetup.win()) {
+            Toast.makeText(this, "You have won.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         if (gameInProgress) {
             fillCell((Button) v);
         } else {
-            Toast.makeText(this, "There is no game in progress", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "There is no game in progress.", Toast.LENGTH_SHORT).show();
         }
     }
 
