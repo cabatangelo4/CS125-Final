@@ -7,9 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class LaunchActivity extends AppCompatActivity {
     @Override
-    public void onCreate(final Bundle savedIntanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         //Required call
-        super.onCreate(savedIntanceState);
+        super.onCreate(savedInstanceState);
         //Set up UI from activity_main.xml
         setContentView(R.layout.activity_main);
         //Set a listener for the new game button

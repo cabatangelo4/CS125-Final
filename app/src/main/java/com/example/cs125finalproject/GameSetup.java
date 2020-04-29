@@ -6,24 +6,21 @@ import java.util.Random;
 
 public class GameSetup {
 
-    /** A class which is used to select "random" integer values. */
-    private Random random = new Random();
-
     /** A map which contains all values that have already been drawn. */
-    private Map<Integer, Integer> drawn = new HashMap<>();
+    private static Map<Integer, Integer> drawnMap = new HashMap<>();
 
     /** The number of different values that have aready been drawn. */
-    private int drawnIndex = 0;
+    private static int drawnCount = 0;
 
     /** The current player's board setup. */
-    private final Map<Integer, Integer> playerBoard = boardValues();
+    public static final Map<Integer, Integer> playerBoard = boardValues();
 
     /** Generates 25 unique random integers from 1 to 100 inclusive. */
     public static Map<Integer, Integer> boardValues() {
         Random random1 = new Random();
         int i = 0;
         Map<Integer, Integer> boardMap = new HashMap<>();
-        while (i < 25) {
+        while (i < 24) {
             int randInt = random1.nextInt(100) + 1;
             if (!(boardMap.containsValue(randInt))) {
                 boardMap.put(i, randInt);
@@ -34,14 +31,14 @@ public class GameSetup {
     }
 
     /** Draws a value from the remaining un-drawn values (returns -1 if all values have been drawn). */
-    public int draw() {
+    public static int draw() {
         Random random1 = new Random();
         int i = 0;
-        while(i < 101) {
+        while(i < 1001 && drawnCount < 100) {
             int randInt = random1.nextInt(100) + 1;
-            if (!(drawn.containsValue(randInt))) {
-                drawn.put(drawnIndex, randInt);
-                drawnIndex++;
+            if (!(drawnMap.containsValue(randInt))) {
+                drawnMap.put(drawnCount, randInt);
+                drawnCount++;
                 return randInt;
             }
             i++;
@@ -51,27 +48,35 @@ public class GameSetup {
 
     /** Determines whether or not the player has won the game.
      * @return true if the player has won, and false otherwise. */
-    public boolean checkWin() {
-        if (drawn.containsValue(playerBoard.get(0)) && drawn.containsValue(playerBoard.get(6))
-                && drawn.containsValue(playerBoard.get(12)) && drawn.containsValue(playerBoard.get(18))
-                && drawn.containsKey(playerBoard.get(24))) {
+    public static boolean win() {
+        if (drawnMap.containsValue(playerBoard.get(0)) && drawnMap.containsValue(playerBoard.get(6))
+                && drawnMap.containsValue(playerBoard.get(18)) && drawnMap.containsValue(playerBoard.get(24))) {
             return true;
-        } else if (drawn.containsValue(playerBoard.get(4)) && drawn.containsValue(playerBoard.get(8))
-                && drawn.containsValue(playerBoard.get(12)) && drawn.containsValue(playerBoard.get(16))
-                && drawn.containsKey(playerBoard.get(20))) {
+        } else if (drawnMap.containsValue(playerBoard.get(4)) && drawnMap.containsValue(playerBoard.get(8))
+                && drawnMap.containsValue(playerBoard.get(16)) && drawnMap.containsValue(playerBoard.get(20))) {
             return true;
         }
         for (int i = 0; i < 5; i++) {
-            if (drawn.containsValue(playerBoard.get(i)) && drawn.containsValue(playerBoard.get(i + 5))
-                    && drawn.containsValue(playerBoard.get(i + 10)) && drawn.containsValue(playerBoard.get(i + 15))
-                    && drawn.containsValue(playerBoard.get(i + 20))) {
+            if (i == 2) {
+                if (drawnMap.containsValue(playerBoard.get(i)) && drawnMap.containsValue(playerBoard.get(i + 5))
+                    && drawnMap.containsValue(playerBoard.get(i + 15)) && drawnMap.containsValue(playerBoard.get(i + 20))) {
+                    return true;
+                }
+            } else if (drawnMap.containsValue(playerBoard.get(i)) && drawnMap.containsValue(playerBoard.get(i + 5))
+                    && drawnMap.containsValue(playerBoard.get(i + 10)) && drawnMap.containsValue(playerBoard.get(i + 15))
+                    && drawnMap.containsValue(playerBoard.get(i + 20))) {
                 return true;
             }
         }
         for (int j = 0; j < 25; j += 5) {
-            if (drawn.containsValue(playerBoard.get(j)) && drawn.containsValue(playerBoard.get(j + 1))
-                    && drawn.containsValue(playerBoard.get(j + 2)) && drawn.containsValue(playerBoard.get(j + 3))
-                    && drawn.containsValue(playerBoard.get(j + 4))) {
+            if (j == 10) {
+                if (drawnMap.containsValue(playerBoard.get(j)) && drawnMap.containsValue(playerBoard.get(j + 1))
+                        && drawnMap.containsValue(playerBoard.get(j + 3)) && drawnMap.containsValue(playerBoard.get(j + 4))) {
+                    return true;
+                }
+            } else if (drawnMap.containsValue(playerBoard.get(j)) && drawnMap.containsValue(playerBoard.get(j + 1))
+                    && drawnMap.containsValue(playerBoard.get(j + 2)) && drawnMap.containsValue(playerBoard.get(j + 3))
+                    && drawnMap.containsValue(playerBoard.get(j + 4))) {
                 return true;
             }
         }
