@@ -96,4 +96,51 @@ public class GameSetup {
         }
         return false;
     }
+
+       /*public static boolean isGreen(int i) {
+        return colorMap.get(i) == R.color.colorGreen;
+    }*/
+
+    /*    *//** Determines whether or not the player has won the game.
+     * @return true if the player has won, and false otherwise. *//*
+    public static boolean win() {
+        if (isGreen(0) && isGreen(6) && isGreen(17) && isGreen(23)) {
+            return true;
+        } else if (isGreen(4) && isGreen(8) && isGreen(15) && isGreen(19)) {
+            return true;
+        }
+        for (int i = 0; i < 5; i++) {
+            if (i == 2) {
+                if (isGreen(i) && isGreen(i + 5) && isGreen(i + 14) && isGreen(i + 19)) {
+                    return true;
+                }
+            }
+            if (i < 2 && isGreen(i) && isGreen(i + 5) && isGreen(i + 10)
+                    && isGreen(1 + 14) && isGreen(i + 19)) {
+                return true;
+            } else if (i > 2 && isGreen(i) && isGreen(i + 5) && isGreen(i + 9)
+                    && isGreen(i + 14) && isGreen(i + 19)) {
+                return true;
+            }
+        }
+        for (int j = 0; j <= 10; j += 5) {
+            if (j < 10) {
+                if (isGreen(j) && isGreen(j + 1) && isGreen(j + 2)
+                        && isGreen(j + 3) && isGreen(j + 4)) {
+                    return true;
+                }
+            } else if (j == 10) {
+                if (isGreen(j) && isGreen(j + 1) && isGreen(j + 2) && isGreen(j + 3)) {
+                    return true;
+                }
+            }
+        }
+        for (int k = 14; k < 20; k += 5) {
+            if (isGreen(k) && isGreen(k + 1) && isGreen(k + 2)
+                    && isGreen(k + 3) && isGreen(k + 4)) {
+                return true;
+            }
+        }
+        return false;
+    }*/
 }
