@@ -225,6 +225,13 @@
             android:textSize="30sp"></Button>
     </LinearLayout>
 
+    <EditText
+        android:id="@+id/draw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
