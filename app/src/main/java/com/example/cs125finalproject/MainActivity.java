@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             button.setText(buttonValue);
             currentBoard[i] = findViewById(resID);
             button.setOnClickListener(this);
-        }
+            }
         gameInProgress = true;
-    }
+        }
 
     public void resetBoard() {
         Button middle = findViewById(R.id.b_center);

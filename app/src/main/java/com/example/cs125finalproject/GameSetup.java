@@ -50,33 +50,47 @@ public class GameSetup {
      * @return true if the player has won, and false otherwise. */
     public static boolean win() {
         if (drawnMap.containsValue(playerBoard.get(0)) && drawnMap.containsValue(playerBoard.get(6))
-                && drawnMap.containsValue(playerBoard.get(18)) && drawnMap.containsValue(playerBoard.get(24))) {
+                && drawnMap.containsValue(playerBoard.get(17)) && drawnMap.containsValue(playerBoard.get(23))) {
             return true;
         } else if (drawnMap.containsValue(playerBoard.get(4)) && drawnMap.containsValue(playerBoard.get(8))
-                && drawnMap.containsValue(playerBoard.get(16)) && drawnMap.containsValue(playerBoard.get(20))) {
+                && drawnMap.containsValue(playerBoard.get(15)) && drawnMap.containsValue(playerBoard.get(19))) {
             return true;
         }
         for (int i = 0; i < 5; i++) {
             if (i == 2) {
                 if (drawnMap.containsValue(playerBoard.get(i)) && drawnMap.containsValue(playerBoard.get(i + 5))
-                    && drawnMap.containsValue(playerBoard.get(i + 15)) && drawnMap.containsValue(playerBoard.get(i + 20))) {
+                        && drawnMap.containsValue(playerBoard.get(i + 14)) && drawnMap.containsValue(playerBoard.get(i + 19))) {
                     return true;
                 }
-            } else if (drawnMap.containsValue(playerBoard.get(i)) && drawnMap.containsValue(playerBoard.get(i + 5))
-                    && drawnMap.containsValue(playerBoard.get(i + 10)) && drawnMap.containsValue(playerBoard.get(i + 15))
-                    && drawnMap.containsValue(playerBoard.get(i + 20))) {
+            }
+            if (i < 2 && drawnMap.containsValue(playerBoard.get(i)) && drawnMap.containsValue(playerBoard.get(i + 5))
+                    && drawnMap.containsValue(playerBoard.get(i + 10)) && drawnMap.containsValue(playerBoard.get(i + 14))
+                    && drawnMap.containsValue(playerBoard.get(i + 19))) {
+                return true;
+            } else if (i > 2 && drawnMap.containsValue(playerBoard.get(i)) && drawnMap.containsValue(playerBoard.get(i + 5))
+                    && drawnMap.containsValue(playerBoard.get(i + 9)) && drawnMap.containsValue(playerBoard.get(i + 14))
+                    && drawnMap.containsValue(playerBoard.get(i + 19))) {
                 return true;
             }
         }
-        for (int j = 0; j < 25; j += 5) {
-            if (j == 10) {
+        for (int j = 0; j <= 10; j += 5) {
+            if (j < 10) {
                 if (drawnMap.containsValue(playerBoard.get(j)) && drawnMap.containsValue(playerBoard.get(j + 1))
-                        && drawnMap.containsValue(playerBoard.get(j + 3)) && drawnMap.containsValue(playerBoard.get(j + 4))) {
+                        && drawnMap.containsValue(playerBoard.get(j + 2)) && drawnMap.containsValue(playerBoard.get(j + 3))
+                        && drawnMap.containsValue(playerBoard.get(j + 4))) {
                     return true;
                 }
-            } else if (drawnMap.containsValue(playerBoard.get(j)) && drawnMap.containsValue(playerBoard.get(j + 1))
-                    && drawnMap.containsValue(playerBoard.get(j + 2)) && drawnMap.containsValue(playerBoard.get(j + 3))
-                    && drawnMap.containsValue(playerBoard.get(j + 4))) {
+            } else if (j == 10) {
+                if (drawnMap.containsValue(playerBoard.get(j)) && drawnMap.containsValue(playerBoard.get(j + 1))
+                        && drawnMap.containsValue(playerBoard.get(j + 2)) && drawnMap.containsValue(playerBoard.get(j + 3))) {
+                    return true;
+                }
+            }
+        }
+        for (int k = 14; k < 20; k += 5) {
+            if (drawnMap.containsValue(playerBoard.get(k)) && drawnMap.containsValue(playerBoard.get(k + 1))
+                    && drawnMap.containsValue(playerBoard.get(k + 2)) && drawnMap.containsValue(playerBoard.get(k + 3))
+                    && drawnMap.containsValue(playerBoard.get(k + 4))) {
                 return true;
             }
         }
