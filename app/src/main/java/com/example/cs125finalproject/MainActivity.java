@@ -58,13 +58,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * A function that fills each cell of the board with a random number and activates their onClick function
      */
     public void populateBoard() {
+        resetBoard();
         Button middle = findViewById(R.id.b_center);
         String freeSpace = "Free";
         middle.setText(freeSpace);
         middle.setBackgroundColor(getResources().getColor(R.color.colorYellow));
+        Map<Integer, Integer> playerBoard = GameSetup.boardValues();
         for (int i = 0; i < 24; i++) {
             String buttonID = "b_" + i;
-            String buttonValue = GameSetup.playerBoard.get(i).toString();
+            String buttonValue = playerBoard.get(i).toString();
             int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
             Button button = findViewById(resID);
             button.setText(buttonValue);
@@ -74,6 +76,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     public void resetBoard() {
+        GameSetup.drawnMap.clear();
+        gameInProgress = false;
+        if (GameSetup.drawnMap.size() == 0) {
+            Toast.makeText(this, "Draw entries cleared", Toast.LENGTH_SHORT).show();
+        }
         Button middle = findViewById(R.id.b_center);
         middle.setText("");
         middle.setBackgroundResource(android.R.drawable.btn_default);
@@ -88,6 +95,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void drawValue() {
+        if (!gameInProgress) {
+            Toast.makeText(this, "There is no game in progress", Toast.LENGTH_SHORT).show();
+            return;
+        }
         int value = GameSetup.draw();
         TextView display = findViewById(R.id.draw);
         display.setText(((Object) value).toString());
@@ -99,6 +110,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void winCheck() {
+        if (!gameInProgress) {
+            Toast.makeText(this, "There is no game in progress", Toast.LENGTH_SHORT).show();
+        }
         if (GameSetup.win()) {
             Toast.makeText(this, "You have won.", Toast.LENGTH_SHORT).show();
         }

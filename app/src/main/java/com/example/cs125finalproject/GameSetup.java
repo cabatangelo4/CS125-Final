@@ -7,7 +7,7 @@ import java.util.Random;
 public class GameSetup {
 
     /** A map which contains all values that have already been drawn. */
-    private static Map<Integer, Integer> drawnMap = new HashMap<>();
+    public static Map<Integer, Integer> drawnMap = new HashMap<>();
 
     /** The number of different values that have aready been drawn. */
     private static int drawnCount = 0;
