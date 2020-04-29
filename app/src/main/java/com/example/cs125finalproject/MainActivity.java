@@ -1,5 +1,6 @@
 package com.example.cs125finalproject;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -24,17 +25,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /** An array of the cells as buttons*/
     private Button[] currentBoard = new Button[24];
 
-    /** A map which contains all values that have already been drawn. */
-    //private static Map<Integer, Integer> drawnMap = new HashMap<>();
-
-    /** The number of different values that have aready been drawn. */
-    //private static int drawnIndex = 0;
-
     /** Tells whether or not there is a game in progress*/
     private Boolean gameInProgress = false;
-
-    /** The player's board (from GameSetup class). */
-    //private static final Map<Integer, Integer> board = GameSetup.playerBoard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,12 +89,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void drawValue() {
         int value = GameSetup.draw();
-        //Object displayValue = value;
-        //Map<Integer, Integer> board = GameSetup.playerBoard;
         for (int i = 0; i < 24; i++) {
             if (value == GameSetup.playerBoard.get(i)) {
                 fillCell(currentBoard[i]);
-                //return;
             }
         }
     }
@@ -111,9 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (GameSetup.win()) {
             Toast.makeText(this, "You have won.", Toast.LENGTH_SHORT).show();
         }
-        /*else {
-            Toast.makeText(this, "You have not won.", Toast.LENGTH_SHORT).show();
-        }*/
     }
 
     @Override
