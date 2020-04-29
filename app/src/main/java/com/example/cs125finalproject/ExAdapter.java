@@ -17,7 +17,7 @@ public class ExAdapter extends RecyclerView.Adapter<ExAdapter.ExViewHolder> {
         public TextView mcontent;
         public ExViewHolder(View itemView) {
             super(itemView);
-            mcontent = itemView.findViewById(R.id.content)
+            mcontent = itemView.findViewById(R.id.content);
         }
     }
 

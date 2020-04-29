@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void drawValue() {
         int value = GameSetup.draw();
+        String toShow = Integer.toString(value);
+        Toast.makeText(this, toShow, Toast.LENGTH_SHORT).show();
         for (int i = 0; i < 24; i++) {
             if (value == GameSetup.playerBoard.get(i)) {
                 fillCell(currentBoard[i]);
@@ -99,14 +101,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void winCheck() {
         if (GameSetup.win()) {
             Toast.makeText(this, "You have won.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "You have not won.", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onClick(View v) {
-        if (gameInProgress) {
-            fillCell((Button) v);
-        } else {
+        if (!gameInProgress) {
             Toast.makeText(this, "There is no game in progress.", Toast.LENGTH_SHORT).show();
         }
     }
