@@ -1,5 +1,6 @@
 package com.example.cs125finalproject;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button middle = findViewById(R.id.b_center);
         String freeSpace = "Free";
         middle.setText(freeSpace);
-        middle.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+        middle.setBackgroundColor(getResources().getColor(R.color.colorYellow));
         for (int i = 0; i < 24; i++) {
             String buttonID = "b_" + i;
             String buttonValue = board.get(i).toString();
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Function to check whether or not a cell is filled and fill it.
      */
     public void fillCell(Button button) {
-        button.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+        button.setBackgroundColor(getResources().getColor(R.color.colorYellow));
     }
 
     @Override
