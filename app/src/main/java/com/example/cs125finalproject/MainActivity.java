@@ -1,19 +1,24 @@
 package com.example.cs125finalproject;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button middle = findViewById(R.id.b_center);
         String freeSpace = "Free";
         middle.setText(freeSpace);
-        middle.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+        middle.setBackgroundColor(getResources().getColor(R.color.colorYellow));
         for (int i = 0; i < 24; i++) {
             String buttonID = "b_" + i;
             String buttonValue = GameSetup.playerBoard.get(i).toString();
@@ -63,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Button button = findViewById(resID);
             button.setText(buttonValue);
             currentBoard[i] = findViewById(resID);
+            button.setOnClickListener(this);
             }
         gameInProgress = true;
         }
@@ -83,11 +89,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void drawValue() {
         int value = GameSetup.draw();
-        TextView display = findViewById(R.id.draw);
-        display.setText(((Object) value).toString());
+        String toShow = Integer.toString(value);
+        Toast.makeText(this, toShow, Toast.LENGTH_SHORT).show();
         for (int i = 0; i < 24; i++) {
             if (value == GameSetup.playerBoard.get(i)) {
-                currentBoard[i].setOnClickListener(this);
+                fillCell(currentBoard[i]);
             }
         }
     }
@@ -95,14 +101,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void winCheck() {
         if (GameSetup.win()) {
             Toast.makeText(this, "You have won.", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "You have not won.", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onClick(View v) {
-        if (gameInProgress) {
-            fillCell((Button) v);
-        } else {
+        if (!gameInProgress) {
             Toast.makeText(this, "There is no game in progress.", Toast.LENGTH_SHORT).show();
         }
     }
@@ -111,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Function to check whether or not a cell is filled and fill it.
      */
     public void fillCell(Button button) {
-        button.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+        button.setBackgroundColor(getResources().getColor(R.color.colorYellow));
     }
 
     @Override
