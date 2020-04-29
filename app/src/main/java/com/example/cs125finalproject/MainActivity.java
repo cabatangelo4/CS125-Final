@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -68,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Button button = findViewById(resID);
             button.setText(buttonValue);
             currentBoard[i] = findViewById(resID);
-            button.setOnClickListener(this);
             }
         gameInProgress = true;
         }
@@ -89,11 +89,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void drawValue() {
         int value = GameSetup.draw();
-        String toShow = Integer.toString(value);
-        Toast.makeText(this, toShow, Toast.LENGTH_SHORT).show();
+        TextView display = findViewById(R.id.draw);
+        display.setText(((Object) value).toString());
         for (int i = 0; i < 24; i++) {
             if (value == GameSetup.playerBoard.get(i)) {
-                fillCell(currentBoard[i]);
+                currentBoard[i].setOnClickListener(this);
             }
         }
     }
@@ -101,8 +101,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void winCheck() {
         if (GameSetup.win()) {
             Toast.makeText(this, "You have won.", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "You have not won.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -110,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         if (!gameInProgress) {
             Toast.makeText(this, "There is no game in progress.", Toast.LENGTH_SHORT).show();
+        } else {
+            fillCell((Button) v);
         }
     }
 
