@@ -1,14 +1,9 @@
 package com.example.cs125finalproject;
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.drawable.DrawableCompat;
 
 import android.view.View;
 import android.view.Menu;
@@ -17,17 +12,23 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     /** An array of the cells as buttons*/
-    private Button[] currentBoard = new Button[24];
+    public static Button[] currentBoard = new Button[24];
 
     /** Tells whether or not there is a game in progress*/
     private Boolean gameInProgress = false;
+
+    /**
+     * Displays the remaining time that a user has to select
+     * a cell after a value on their board has been drawn.
+     * */
+    private DrawTimer timer;
+
+    /** The cell which contains the drawn value. */
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 winCheck());
     }
 
+
+
     /**
      * A function that fills each cell of the board with a random number and activates their onClick function
      */
@@ -69,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Button button = findViewById(resID);
             button.setText(buttonValue);
             currentBoard[i] = findViewById(resID);
+            currentBoard[i].setOnClickListener(this);
             }
         gameInProgress = true;
         }
@@ -87,19 +91,118 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         gameInProgress = false;
     }
 
+    /**
+     * Draws a random value from the 'un-drawn' [see GameSetup.draw()] values
+     * and starts a 10 second timer if the drawn value is on the player's board
+     * */
     public void drawValue() {
-        int value = GameSetup.draw();
-        TextView display = findViewById(R.id.draw);
-        display.setText(((Object) value).toString());
-        for (int i = 0; i < 24; i++) {
-            if (value == GameSetup.playerBoard.get(i)) {
-                currentBoard[i].setOnClickListener(this);
+        try {
+            timer.cancel();
+            button.setOnClickListener(null);
+            int value = GameSetup.draw();
+            TextView display = findViewById(R.id.draw);
+            display.setText(((Object) value).toString());
+            for (int i = 0; i < 24; i++) {
+                timer = new DrawTimer(11000, 1000,
+                        (TextView) findViewById(R.id.timer), currentBoard[i]);
+                if (value == GameSetup.playerBoard.get(i)) {
+                    timer.start();
+                    currentBoard[i].setOnClickListener(this);
+                    button = currentBoard[i];
+                    return;
+                }
+            }
+        } catch (Exception e) {
+            int value = GameSetup.draw();
+            TextView display = findViewById(R.id.draw);
+            display.setText(((Object) value).toString());
+            for (int i = 0; i < 24; i++) {
+                timer = new DrawTimer(11000, 1000,
+                        (TextView) findViewById(R.id.timer), currentBoard[i]);
+                if (value == GameSetup.playerBoard.get(i)) {
+                    timer.start();
+                    currentBoard[i].setOnClickListener(this);
+                    button = currentBoard[i];
+                    return;
+                }
             }
         }
     }
 
+    /**
+     * Gets the input button's background color.
+     * @return the integer value that represents the button's color.
+     * */
+    private int getButtonBackgroundColor(Button button){
+        int buttonColor = 0;
+        if (button.getBackground() instanceof ColorDrawable) {
+            ColorDrawable cd = (ColorDrawable) button.getBackground();
+            buttonColor = cd.getColor();
+        }
+        return buttonColor;
+    }
+
+    /**
+     * Tests the color of the input button.
+     * @return true if the cell (button) has been filled, and false otherwise.
+     * */
+    public boolean isYellow(Button button) {
+        if (button == null) {
+            return false;
+        }
+        int color = getButtonBackgroundColor(button);
+        return color == getResources().getColor(R.color.colorYellow);
+
+    }
+
+    /**
+     * Determines whether or not the player has won the game.
+     * @return true if the player has won, and false otherwise.
+     * */
+    public boolean win() {
+        if (isYellow(currentBoard[0]) && isYellow(currentBoard[6]) && isYellow(currentBoard[17]) && isYellow(currentBoard[23])) {
+            return true;
+        } else if (isYellow(currentBoard[4]) && isYellow(currentBoard[8]) && isYellow(currentBoard[15]) && isYellow(currentBoard[19])) {
+            return true;
+        }
+        for (int i = 0; i < 5; i++) {
+            if (i == 2) {
+                if (isYellow(currentBoard[i]) && isYellow(currentBoard[i + 5]) && isYellow(currentBoard[i + 14]) && isYellow(currentBoard[i + 19])) {
+                    return true;
+                }
+            }
+            if (i < 2 && isYellow(currentBoard[i]) && isYellow(currentBoard[i + 5]) && isYellow(currentBoard[i + 10])
+                    && isYellow(currentBoard[i + 14]) && isYellow(currentBoard[i + 19])) {
+                return true;
+            } else if (i > 2 && isYellow(currentBoard[i]) && isYellow(currentBoard[i + 5]) && isYellow(currentBoard[i + 9])
+                    && isYellow(currentBoard[i + 14]) && isYellow(currentBoard[i + 19])) {
+                return true;
+            }
+        }
+        for (int j = 0; j <= 10; j += 5) {
+            if (j < 10) {
+                if (isYellow(currentBoard[j]) && isYellow(currentBoard[j + 1]) && isYellow(currentBoard[j + 2])
+                        && isYellow(currentBoard[j + 3]) && isYellow(currentBoard[j + 4])) {
+                    return true;
+                }
+            } else if (j == 10) {
+                if (isYellow(currentBoard[j]) && isYellow(currentBoard[j + 1]) && isYellow(currentBoard[j + 2]) && isYellow(currentBoard[j + 3])) {
+                    return true;
+                }
+            }
+        }
+        for (int k = 14; k < 20; k += 5) {
+            if (isYellow(currentBoard[k]) && isYellow(currentBoard[k + 1]) && isYellow(currentBoard[k + 2])
+                    && isYellow(currentBoard[k + 3]) && isYellow(currentBoard[k + 4])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Alerts the player when they have won. */
     public void winCheck() {
-        if (GameSetup.win()) {
+        if (win()) {
             Toast.makeText(this, "You have won.", Toast.LENGTH_SHORT).show();
         }
     }
@@ -118,6 +221,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void fillCell(Button button) {
         button.setBackgroundColor(getResources().getColor(R.color.colorYellow));
+        timer.cancel();
     }
 
     @Override

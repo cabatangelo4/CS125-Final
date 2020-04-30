@@ -10,6 +10,13 @@
         android:theme="?attr/actionBarTheme"
         />
 
+    <EditText
+        android:id="@+id/timer"
+        android:layout_width="match_parent"
+        android:layout_height="89dp"
+        android:ems="10"
+        android:inputType="text" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -228,7 +235,7 @@
     <EditText
         android:id="@+id/draw"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:ems="10"
         android:inputType="number" />
 
