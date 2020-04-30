@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 public class DrawTimer extends CountDownTimer {
     private TextView timeRemaining;
-    public boolean finished = false;
     private Button button;
     public DrawTimer(long millisInFuture, long countDownInterval, TextView view, Button b) {
         super(millisInFuture, countDownInterval);
@@ -18,7 +17,6 @@ public class DrawTimer extends CountDownTimer {
     }
     public void onFinish() {
         String timeUp = "TIME'S UP";
-        finished = true;
         button.setOnClickListener(null);
         timeRemaining.setText(timeUp);
     }
